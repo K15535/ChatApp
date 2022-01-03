@@ -1,3 +1,8 @@
 <div style="width: 100%">
-  <app-join-banner></app-join-banner>
+  <app-join-banner
+    (userAdded)="onUserAdded($event)">
+  </app-join-banner>
+  <app-chat-screen
+    [newChatUser]="newChatUser">
+  </app-chat-screen>
 </div>

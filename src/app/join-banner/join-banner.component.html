@@ -1,5 +1,5 @@
 <div class="banner">
-    <label id="lblUsername">Username:</label> 
-    <input id="inputUsername" type="text" />
-    <button id="inputJoin">Join !</button>
+    <label>Username:</label> 
+    <input [(ngModel)]="usernameInput" type="text" />
+    <button (click)="addUser()" [disabled]="usernameInput.length == 0">Join !</button>
 </div>
