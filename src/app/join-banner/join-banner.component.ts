@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ChatUser } from 'src/models/ChatUser';
-
-const LOCAL_STORAGE_USERS_KEY = "users";
+import { LOCAL_STORAGE_USERS_KEY } from '../app.component';
 
 @Component({
   selector: 'app-join-banner',
@@ -20,8 +19,7 @@ export class JoinBannerComponent implements OnInit {
     this.currentChatUsersArray = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS_KEY) || '[]');
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {  }
 
   addUser() {
     if (this.currentChatUsersArray.find(chatUser => chatUser.username == this.usernameInput) != null)
@@ -42,7 +40,7 @@ export class JoinBannerComponent implements OnInit {
     // Clear the textbox
     this.usernameInput = '';
 
-    // The event is received by the root component in order to ping the chat-screen component that a new user has been created
+    // The event is received by the root component and pass the new chat user to the chat-screen component
     this.userAdded.emit(newChatUser);
   }
 }

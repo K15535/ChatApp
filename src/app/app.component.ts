@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ChatUser } from 'src/models/ChatUser';
 
+export const LOCAL_STORAGE_USERS_KEY = "users";
+export const LOCAL_STORAGE_MESSAGES_KEY = "messages";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
