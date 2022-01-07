@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { JoinBannerComponent } from './join-banner/join-banner.component';
 import { ChatScreenComponent } from './chat-screen/chat-screen.component';
-import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -21,9 +20,7 @@ import { DatePipe } from '@angular/common';
     FormsModule,
     MatTabsModule
   ],
-  providers: [
-    DatePipe
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

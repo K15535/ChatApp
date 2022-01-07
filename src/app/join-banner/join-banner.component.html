@@ -1,5 +1,5 @@
 <div class="banner">
     <label>Username:</label> 
-    <input [(ngModel)]="usernameInput" type="text" />
+    <input [(ngModel)]="usernameInput" type="text" (keydown.enter)="addUser()"/>
     <button (click)="addUser()" [disabled]="usernameInput.length == 0">Join !</button>
 </div>

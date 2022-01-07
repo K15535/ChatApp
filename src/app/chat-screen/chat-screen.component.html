@@ -1,18 +1,22 @@
 <div id="main-container" style="background-color: aqua;width: 100%;height: 350px;display: inline-flex;">
     <div id="chat-users-container" style="height: 100%;width: 25%;background-color: blueviolet;overflow: auto;padding: 0px 2px 0px 2px;">
         <!-- Contains each user entry -->
-        <button *ngFor="let chatUser of chatUsers" style="display: block; width: 100%;" (click)="chatUserClicked(chatUser)">{{chatUser.username}}</button>
+        <div *ngFor="let chatUser of chatUsers; let index = index" style="display: block; width: 100%;">
+            <button (click)="selectUser(chatUser)">{{chatUser.username}}</button>
+            <button (click)="disconnectUser(index)">disco</button>
+        </div>
     </div>
     <div id="chat-container" style="background-color:darkgreen;width: 75%;height: 100%;position: relative;">
         <div #scrollableContainer id="chat-area" style="background-color:darkgrey; width:100%;height: 310px;overflow: auto;">
             <div *ngFor="let message of messages" style="background-color: yellow;width: 100%;">
-                <label>[{{message.date}}] {{message.emitter}} : {{message.content}}</label>
+                <label *ngIf="message.type == messageType.User">[{{message.date}}] {{message.emitter}} : {{message.content}}</label>
+                <label *ngIf="message.type == messageType.System"><i>System: {{message.content}}</i></label>
             </div>
         </div>
         <div id="chat-footer" style="background-color: coral;height: 40px;width:100%;position: absolute;bottom: 0;">
-            <label>{{selectedUser}} selected: </label>
-            <input type="text" [(ngModel)]="chatMessageInput" (keydown.enter)="addChatMessage()"/>
-            <button (click)="addChatMessage()" [disabled]="chatMessageInput.length == 0">Send</button>
+            <label>{{selectedUser}} says: </label>
+            <input type="text" [(ngModel)]="chatMessageInput" (keydown.enter)="chatMessageInput.length == 0 || selectedUser == '' ? null : addChatMessage()"/>
+            <button (click)="addChatMessage()" [disabled]="chatMessageInput.length == 0 || selectedUser == ''">Send</button>
         </div>
     </div>
 </div>

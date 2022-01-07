@@ -1,10 +1,8 @@
-import { Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { DatePipe, formatDate } from '@angular/common';
+import { Component, ElementRef, Input, IterableChanges, IterableDiffer, IterableDiffers, OnInit, ViewChild } from '@angular/core';
 import { ChatUser } from 'src/models/ChatUser';
 import { Message } from 'src/models/Message';
-
-import { LOCAL_STORAGE_USERS_KEY } from '../app.component';
-import { LOCAL_STORAGE_MESSAGES_KEY } from '../app.component';
+import { MessageType } from 'src/enums/MessageType';
+import { ChatUserService } from 'src/services/chat-user.service';
 
 @Component({
   selector: 'app-chat-screen',
@@ -13,57 +11,63 @@ import { LOCAL_STORAGE_MESSAGES_KEY } from '../app.component';
 })
 export class ChatScreenComponent implements OnInit {
   @ViewChild('scrollableContainer') private myScrollContainer!: ElementRef;
-  @Input() newChatUser: ChatUser | undefined;
 
-  chatUsers : ChatUser[];
-  messages : Message[];
-  selectedUser : string;
-  chatMessageInput: string = '';
+  public chatUsers: ChatUser[] = [];
+  public messages: Message[] = [];
+  public selectedUser: string = '';
+  public chatMessageInput: string = '';
 
-  constructor() {
-    this.chatUsers = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS_KEY) || '[]');
-    this.messages = JSON.parse(localStorage.getItem(LOCAL_STORAGE_MESSAGES_KEY) || '[]');
-    this.selectedUser = this.chatUsers.length > 0 ? this.chatUsers[0].username : '';
+  // To be able to use the enum in the front page
+  public messageType = MessageType;
+
+  // To watch changes on the chat users array
+  private iterableDiffer : IterableDiffer<ChatUser>;
+
+  constructor(private chatUserService: ChatUserService, private iterableDiffers: IterableDiffers) {
+    this.iterableDiffer = this.iterableDiffers.find([]).create<ChatUser>(undefined);
   }
 
   ngOnInit(): void {
     this.scrollToBottom();
+    this.getChatUsers();
   }
 
-  ngAfterViewChecked() {        
+  ngDoCheck(): void {
+    let changes: IterableChanges<ChatUser> | null = this.iterableDiffer.diff(this.chatUsers);
+
+    if (changes) {
+      changes.forEachAddedItem(record => {
+        this.selectedUser = record.item.username;
+        this.messages.push(new Message(`${this.selectedUser} has joined the chat :D`, '', MessageType.System));
+      });
+      changes.forEachRemovedItem(record => {
+        // If the deleted user was the last one or the current selected one
+        if (this.chatUsers.length == 0 || record.item.username == this.selectedUser)
+          this.selectedUser = '';
+
+        this.messages.push(new Message(`${record.item.username} has left the chat :(`, '', MessageType.System));
+      });
+    }
+ }
+
+  ngAfterViewChecked(): void {        
     this.scrollToBottom();        
-  } 
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log("previous value : " + changes['newChatUser'].previousValue?.username);
-    console.log("current value : " + changes['newChatUser'].currentValue?.username);
-
-    if (changes['newChatUser'].currentValue != undefined)
-      this.addNewChatUserTab(changes['newChatUser'].currentValue);
   }
 
-  addNewChatUserTab(newChatUser: ChatUser) {
-    this.chatUsers.push(newChatUser);
-    this.selectedUser = newChatUser.username;
+  getChatUsers(): void {
+    this.chatUserService.getChatUsers().subscribe(chatUsers => this.chatUsers = chatUsers);
   }
 
-  chatUserClicked(selectedChatUser: ChatUser) {
+  selectUser(selectedChatUser: ChatUser): void {
     this.selectedUser = selectedChatUser.username;
   }
 
-  addChatMessage() {
-    if (this.chatMessageInput.length == 0)
-      return;
-    
-    let message = new Message(this.chatMessageInput, formatDate(Date.now(), "h:mm a", "en"), this.selectedUser);
+  disconnectUser(index: number): void {
+    this.chatUserService.removeChatUser(index);
+  }
 
-    this.messages.push(message);
-
-    // Remove the existing messages array from the local storage
-    localStorage.removeItem(LOCAL_STORAGE_MESSAGES_KEY);
-
-    // Jsonify the messages array in the localstorage
-    localStorage.setItem(LOCAL_STORAGE_MESSAGES_KEY, JSON.stringify(this.messages));
+  addChatMessage(): void {
+    this.messages.push(new Message(this.chatMessageInput, this.selectedUser));
 
     this.chatMessageInput = '';
   }
