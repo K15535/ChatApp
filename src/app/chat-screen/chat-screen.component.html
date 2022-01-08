@@ -9,14 +9,19 @@
     <div id="chat-container" style="background-color:darkgreen;width: 75%;height: 100%;position: relative;">
         <div #scrollableContainer id="chat-area" style="background-color:darkgrey; width:100%;height: 310px;overflow: auto;">
             <div *ngFor="let message of messages" style="background-color: yellow;width: 100%;">
-                <label *ngIf="message.type == messageType.User">[{{message.date}}] {{message.emitter}} : {{message.content}}</label>
+                <label *ngIf="message.type == messageType.User">[{{message.date}}] {{message.emitter}}: {{message.content}}</label>
                 <label *ngIf="message.type == messageType.System"><i>System: {{message.content}}</i></label>
+                <label *ngIf="message.type == messageType.Image">[{{message.date}}] {{message.emitter}}:
+                    <img [src]="message.content" style="max-width: 200px;max-height: 130px;">
+                </label>
             </div>
         </div>
         <div id="chat-footer" style="background-color: coral;height: 40px;width:100%;position: absolute;bottom: 0;">
             <label>{{selectedUser}} says: </label>
             <input type="text" [(ngModel)]="chatMessageInput" (keydown.enter)="chatMessageInput.length == 0 || selectedUser == '' ? null : addChatMessage()"/>
             <button (click)="addChatMessage()" [disabled]="chatMessageInput.length == 0 || selectedUser == ''">Send</button>
+            <input type="file" accept="image/*" (change)="updateImage($event)" style="display: none" #selectImage/>
+            <button (click)="selectImage.click()" [disabled]="selectedUser == ''">Image</button>
         </div>
     </div>
 </div>

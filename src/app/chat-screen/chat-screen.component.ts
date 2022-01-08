@@ -3,6 +3,7 @@ import { ChatUser } from 'src/models/ChatUser';
 import { Message } from 'src/models/Message';
 import { MessageType } from 'src/enums/MessageType';
 import { ChatUserService } from 'src/services/chat-user.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-chat-screen',
@@ -23,7 +24,7 @@ export class ChatScreenComponent implements OnInit {
   // To watch changes on the chat users array
   private iterableDiffer : IterableDiffer<ChatUser>;
 
-  constructor(private chatUserService: ChatUserService, private iterableDiffers: IterableDiffers) {
+  constructor(private chatUserService: ChatUserService, private iterableDiffers: IterableDiffers, private sanitizer: DomSanitizer) {
     this.iterableDiffer = this.iterableDiffers.find([]).create<ChatUser>(undefined);
   }
 
@@ -75,6 +76,13 @@ export class ChatScreenComponent implements OnInit {
   scrollToBottom(): void {
     try {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) { }                 
+    }
+    catch(err) { }                 
+  }
+
+  updateImage(event: any) {
+    let imgURL: string = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(event.target.files[0])) as string;
+
+    this.messages.push(new Message(imgURL, this.selectedUser, MessageType.Image));
   }
 }

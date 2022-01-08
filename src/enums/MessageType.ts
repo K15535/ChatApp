@@ -1,4 +1,5 @@
 export enum MessageType {
     User = "User",
-    System = "System"
+    System = "System",
+    Image = "Image"
 }
