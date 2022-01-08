@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { JoinBannerComponent } from './join-banner/join-banner.component';
 import { ChatScreenComponent } from './chat-screen/chat-screen.component';
 import { MessageComponent } from './message/message.component';
+import { ChatUserCardComponent } from './chat-user-card/chat-user-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     JoinBannerComponent,
     ChatScreenComponent,
-    MessageComponent
+    MessageComponent,
+    ChatUserCardComponent
   ],
   imports: [
     BrowserModule,

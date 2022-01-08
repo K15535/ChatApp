@@ -1,10 +1,11 @@
 <div id="main-container" style="background-color: aqua;width: 100%;height: 350px;display: inline-flex;">
     <div id="chat-users-container" style="height: 100%;width: 25%;background-color: blueviolet;overflow: auto;padding: 0px 2px 0px 2px;">
-        <!-- Contains each user entry -->
-        <div *ngFor="let chatUser of chatUsers; let index = index" style="display: block; width: 100%;">
-            <button (click)="selectUser(chatUser)">{{chatUser.username}}</button>
-            <button (click)="disconnectUser(index)">disco</button>
-        </div>
+        <app-chat-user-card
+            *ngFor="let chatUser of chatUsers; let index = index"
+            [chatUser]="chatUser"
+            [index]="index"
+            (selectUser)="selectedUser = $event.username">
+        </app-chat-user-card>
     </div>
     <div id="chat-container" style="background-color:darkgreen;width: 75%;height: 100%;position: relative;">
         <div #scrollableContainer id="chat-area" style="background-color:darkgrey; width:100%;height: 310px;overflow: auto;">

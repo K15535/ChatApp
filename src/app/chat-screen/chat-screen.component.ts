@@ -56,14 +56,6 @@ export class ChatScreenComponent implements OnInit {
     this.chatUserService.getChatUsers().subscribe(chatUsers => this.chatUsers = chatUsers);
   }
 
-  selectUser(selectedChatUser: ChatUser): void {
-    this.selectedUser = selectedChatUser.username;
-  }
-
-  disconnectUser(index: number): void {
-    this.chatUserService.removeChatUser(index);
-  }
-
   addChatMessage(): void {
     this.messages.push(new Message(this.chatMessageInput, this.selectedUser));
 
