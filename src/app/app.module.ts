@@ -9,6 +9,7 @@ import { JoinBannerComponent } from './join-banner/join-banner.component';
 import { ChatScreenComponent } from './chat-screen/chat-screen.component';
 import { MessageComponent } from './message/message.component';
 import { ChatUserCardComponent } from './chat-user-card/chat-user-card.component';
+import { ChatFooterComponent } from './chat-footer/chat-footer.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ChatUserCardComponent } from './chat-user-card/chat-user-card.component
     JoinBannerComponent,
     ChatScreenComponent,
     MessageComponent,
-    ChatUserCardComponent
+    ChatUserCardComponent,
+    ChatFooterComponent
   ],
   imports: [
     BrowserModule,

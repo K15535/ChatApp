@@ -1,0 +1,7 @@
+<div id="chat-footer" style="background-color: coral;height: 40px;width:100%;position: absolute;bottom: 0;">
+    <label>{{selectedUser}} says: </label>
+    <input type="text" [(ngModel)]="chatMessageInput" (keydown.enter)="chatMessageInput.length == 0 || selectedUser == '' ? null : addChatMessage()"/>
+    <button (click)="addChatMessage()" [disabled]="chatMessageInput.length == 0 || selectedUser == ''">Send</button>
+    <input #imageSelector type="file" accept="image/*" (change)="selectImage($event)" style="display: none"/>
+    <button (click)="imageSelector.click()" [disabled]="selectedUser == ''">Image</button>
+</div>

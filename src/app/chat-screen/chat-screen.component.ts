@@ -3,7 +3,7 @@ import { ChatUser } from 'src/models/ChatUser';
 import { Message } from 'src/models/Message';
 import { MessageType } from 'src/enums/MessageType';
 import { ChatUserService } from 'src/services/chat-user.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { MessageService } from 'src/services/message.service';
 
 @Component({
   selector: 'app-chat-screen',
@@ -15,38 +15,34 @@ export class ChatScreenComponent implements OnInit {
 
   public chatUsers: ChatUser[] = [];
   public messages: Message[] = [];
-  public selectedUser: string = '';
-  public chatMessageInput: string = '';
 
-  // To watch changes on the chat users array
+  // To watch changes on a property
   private iterableDiffer : IterableDiffer<ChatUser>;
 
-  constructor(private chatUserService: ChatUserService, private iterableDiffers: IterableDiffers, private sanitizer: DomSanitizer) {
+  constructor(private chatUserService: ChatUserService,
+      private messageService: MessageService,
+      private iterableDiffers: IterableDiffers) {
     this.iterableDiffer = this.iterableDiffers.find([]).create<ChatUser>(undefined);
   }
 
   ngOnInit(): void {
     this.scrollToBottom();
     this.getChatUsers();
+    this.getMessages();
   }
 
   ngDoCheck(): void {
-    let changes: IterableChanges<ChatUser> | null = this.iterableDiffer.diff(this.chatUsers);
+    let chatUsersArrayChanges: IterableChanges<ChatUser> | null = this.iterableDiffer.diff(this.chatUsers);
 
-    if (changes) {
-      changes.forEachAddedItem(record => {
-        this.selectedUser = record.item.username;
-        this.messages.push(new Message(`${this.selectedUser} has joined the chat :D`, '', MessageType.System));
+    if (chatUsersArrayChanges) {
+      chatUsersArrayChanges.forEachAddedItem(record => {
+        this.messageService.addMessage(new Message(`${record.item.username} has joined the chat :D`, '', MessageType.System));
       });
-      changes.forEachRemovedItem(record => {
-        // If the deleted user was the last one or the current selected one
-        if (this.chatUsers.length == 0 || record.item.username == this.selectedUser)
-          this.selectedUser = '';
-
-        this.messages.push(new Message(`${record.item.username} has left the chat :(`, '', MessageType.System));
+      chatUsersArrayChanges.forEachRemovedItem(record => {
+        this.messageService.addMessage(new Message(`${record.item.username} has left the chat :(`, '', MessageType.System));
       });
     }
- }
+  }
 
   ngAfterViewChecked(): void {        
     this.scrollToBottom();        
@@ -56,10 +52,12 @@ export class ChatScreenComponent implements OnInit {
     this.chatUserService.getChatUsers().subscribe(chatUsers => this.chatUsers = chatUsers);
   }
 
-  addChatMessage(): void {
-    this.messages.push(new Message(this.chatMessageInput, this.selectedUser));
+  getMessages(): void {
+    this.messageService.getMessages().subscribe(messages => this.messages = messages);
+  }
 
-    this.chatMessageInput = '';
+  selectUser(username: string): void {
+    this.chatUserService.selectChatUser(username);
   }
 
   scrollToBottom(): void {
@@ -67,11 +65,5 @@ export class ChatScreenComponent implements OnInit {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     }
     catch(err) { }                 
-  }
-
-  updateImage(event: any) {
-    let imgURL: string = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(event.target.files[0])) as string;
-
-    this.messages.push(new Message(imgURL, this.selectedUser, MessageType.Image));
   }
 }
