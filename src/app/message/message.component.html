@@ -1,0 +1,7 @@
+<div style="background-color: yellow;width: 100%;">
+    <label *ngIf="message.type == messageType.User">[{{message.date}}] {{message.emitter}}: {{message.content}}</label>
+    <label *ngIf="message.type == messageType.System"><i>System: {{message.content}}</i></label>
+    <label *ngIf="message.type == messageType.Image">[{{message.date}}] {{message.emitter}}:
+        <img [src]="message.content" style="max-width: 200px;max-height: 130px;">
+    </label>
+</div>

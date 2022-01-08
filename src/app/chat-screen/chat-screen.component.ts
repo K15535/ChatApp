@@ -18,9 +18,6 @@ export class ChatScreenComponent implements OnInit {
   public selectedUser: string = '';
   public chatMessageInput: string = '';
 
-  // To be able to use the enum in the front page
-  public messageType = MessageType;
-
   // To watch changes on the chat users array
   private iterableDiffer : IterableDiffer<ChatUser>;
 

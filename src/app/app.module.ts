@@ -7,12 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { JoinBannerComponent } from './join-banner/join-banner.component';
 import { ChatScreenComponent } from './chat-screen/chat-screen.component';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     JoinBannerComponent,
-    ChatScreenComponent
+    ChatScreenComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
