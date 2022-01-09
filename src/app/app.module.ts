@@ -10,6 +10,7 @@ import { ChatScreenComponent } from './chat-screen/chat-screen.component';
 import { MessageComponent } from './message/message.component';
 import { ChatUserCardComponent } from './chat-user-card/chat-user-card.component';
 import { ChatFooterComponent } from './chat-footer/chat-footer.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ChatFooterComponent } from './chat-footer/chat-footer.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    MatTabsModule
+    MatTabsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

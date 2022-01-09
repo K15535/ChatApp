@@ -32,7 +32,7 @@ export class ChatFooterComponent implements OnInit {
     this.chatMessageInput = '';
   }
 
-  selectImage(event: any) {
+  selectImage(event: any): void {
     let imgURL: string = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(event.target.files[0])) as string;
 
     this.messageService.addMessage(new Message(imgURL, this.selectedUser, MessageType.Image));

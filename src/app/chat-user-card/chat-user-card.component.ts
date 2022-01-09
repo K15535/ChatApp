@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChatUser } from 'src/models/ChatUser';
 import { ChatUserService } from 'src/services/chat-user.service';
 
@@ -12,15 +12,20 @@ export class ChatUserCardComponent implements OnInit {
   @Input() chatUser!: ChatUser;
   @Input() index!: number;
 
-  @Output() selectUser = new EventEmitter<ChatUser>();
+  public selectedUser: string = '';
 
   constructor(private chatUserService: ChatUserService) { }
 
   ngOnInit(): void {
+    this.getSelectedUserChanges();
+  }
+
+  getSelectedUserChanges(): void {
+    this.chatUserService.selectedUserChange.subscribe(user => this.selectedUser = user);
   }
 
   selectUserClick(selectedChatUser: ChatUser): void {
-    this.selectUser.emit(selectedChatUser);
+    this.chatUserService.selectChatUser(selectedChatUser.username);
   }
 
   disconnectUserClick(index: number): void {

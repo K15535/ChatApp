@@ -1,0 +1,22 @@
+.message {
+    width: 100%;
+    margin-top: 9px;
+    padding: 7px;
+    box-shadow: rgb(9 9 56 / 8%) 0 -3px 16px 0, rgb(50 50 93 / 16%) 0 6px 12px -2px, rgb(0 0 0 / 24%) 0 3px 7px -3px;
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    animation: slide-in 0.5s forwards;
+    -webkit-animation: slide-in 0.5s forwards;
+}
+
+@keyframes slide-in {
+    100% { transform: translateX(0%); }
+}
+
+.message-user {
+    background-color: white;
+}
+
+.message-system {
+    background: linear-gradient(to right,#fcbb31, #f60);
+}

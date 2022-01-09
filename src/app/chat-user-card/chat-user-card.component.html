@@ -1,4 +1,8 @@
-<div style="display: block; width: 100%;">
-    <button (click)="selectUserClick(chatUser)">{{chatUser.username}}</button>
-    <button (click)="disconnectUserClick(index)">disco</button>
+<div id="chat-user-card" class="chat-user-card" [class.selected]="selectedUser == chatUser.username">
+    <div class="username-container" (click)="selectUserClick(chatUser)">
+        <label>{{chatUser.username}}</label>
+    </div>
+    <div (click)="disconnectUserClick(index)" class="disconnect-button">
+        <img src="../../assets/disconnect.png" width="32px"/>
+    </div>
 </div>

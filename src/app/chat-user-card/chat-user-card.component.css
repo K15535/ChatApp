@@ -1,0 +1,38 @@
+.chat-user-card {
+    display: block;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: rgb(9 9 56 / 8%) 0 -3px 16px 0, rgb(50 50 93 / 16%) 0 6px 12px -2px, rgb(0 0 0 / 24%) 0 3px 7px -3px;
+    font-size: 26px;
+    color: #f60;
+    display: flex;
+    padding: 0px 7px 0px 7px;
+    margin-top: 10px;
+    transition: 0.5s;
+}
+
+.chat-user-card:hover {
+    background: #fcbb31;
+    color: white;
+    cursor: pointer;
+    transform: scale(1.1, 1.1);
+}
+
+.chat-user-card:active {
+    transform: scale(1, 1);
+}
+
+.chat-user-card.selected {
+    background-color: #fcbb31;
+    color: white;
+}
+
+.username-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.username-container:hover label {
+    cursor: pointer;
+}

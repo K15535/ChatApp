@@ -1,0 +1,44 @@
+.chat-screen-main-container {
+    height: 638px;
+}
+
+.chat-container {
+    position: relative;
+    padding: 0%;
+}
+
+.chat-area {
+    background-image: url("../../assets/whatsapp-blur.jpg");
+    height: 600px;
+    overflow: auto;
+    padding: 0px 9px 7px 9px;
+}
+
+.chat-users-container {
+    height: 100%;
+    background: linear-gradient(to right,#f60,#FD8F16);
+    overflow: auto;
+    padding-bottom: 7px;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
+.chat-users-container::-webkit-scrollbar {
+    display: none;
+}
+
+.chat-area::-webkit-scrollbar {
+    width: 10px;
+}
+  
+.chat-area::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+   
+.chat-area::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+  
+.chat-area::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

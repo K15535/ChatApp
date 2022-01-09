@@ -1,5 +1,8 @@
-<div class="banner">
-    <label>Username:</label> 
-    <input [(ngModel)]="usernameInput" type="text" (keydown.enter)="addUser()"/>
-    <button (click)="addUser()" [disabled]="usernameInput.length == 0">Join !</button>
+<div class="row">
+    <div class="input-group col-3 mb-2" style="padding-right: 0px;padding-left: 0px;">
+        <input class="form-control" [(ngModel)]="usernameInput" type="text" (keydown.enter)="usernameInput.length == 0 ? null : addUser()" placeholder="Enter your username"/>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" (click)="addUser()" [disabled]="usernameInput.length == 0">Chat !</button>
+        </div>
+    </div>
 </div>

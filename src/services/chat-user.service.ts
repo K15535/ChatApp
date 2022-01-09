@@ -19,8 +19,6 @@ export class ChatUserService {
   }
 
   addChatUser(chatUser: ChatUser): void {
-    this.selectChatUser(chatUser.username);
-
     this.chatUsers.push(chatUser);
   }
 

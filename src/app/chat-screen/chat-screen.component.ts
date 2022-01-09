@@ -11,7 +11,8 @@ import { MessageService } from 'src/services/message.service';
   styleUrls: ['./chat-screen.component.css']
 })
 export class ChatScreenComponent implements OnInit {
-  @ViewChild('scrollableContainer') private myScrollContainer!: ElementRef;
+  @ViewChild('chatArea') private chatArea!: ElementRef;
+  @ViewChild('chatUsersContainer') private chatUsersContainer!: ElementRef;
 
   public chatUsers: ChatUser[] = [];
   public messages: Message[] = [];
@@ -56,13 +57,10 @@ export class ChatScreenComponent implements OnInit {
     this.messageService.getMessages().subscribe(messages => this.messages = messages);
   }
 
-  selectUser(username: string): void {
-    this.chatUserService.selectChatUser(username);
-  }
-
   scrollToBottom(): void {
     try {
-        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+        this.chatArea.nativeElement.scrollTop = this.chatArea.nativeElement.scrollHeight;
+        this.chatUsersContainer.nativeElement.scrollTop = this.chatUsersContainer.nativeElement.scrollHeight;
     }
     catch(err) { }                 
   }

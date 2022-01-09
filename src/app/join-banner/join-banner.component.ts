@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChatUser } from 'src/models/ChatUser';
 import { ChatUserService } from 'src/services/chat-user.service';
 
